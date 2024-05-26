@@ -1,4 +1,4 @@
-namespace PIA_LMP_API
+namespace PIA_LMP_API.Data.Models
 {
     public class WeatherForecast
     {

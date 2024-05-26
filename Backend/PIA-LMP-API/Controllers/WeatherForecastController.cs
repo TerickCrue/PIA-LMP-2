@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PIA_LMP_API.Data.Models;
 
 namespace PIA_LMP_API.Controllers
 {
