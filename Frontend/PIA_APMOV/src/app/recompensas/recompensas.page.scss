@@ -1,0 +1,50 @@
+/* iOS places the subtitle above the title */
+ion-card-header.ios {
+    display: flex;
+    flex-flow: column-reverse;
+}
+
+ion-content {
+    --background: url("../../img/fondoMascotas.jpg") no-repeat center center / cover;
+}
+
+
+ion-toolbar {
+    --border-color: white;
+    padding: 10px;
+    height: 100%;
+}
+
+ion-button {
+    --background:white;
+    color: black;
+}
+
+.titulo-recompensas {
+    color: black;
+    text-align: center;
+    font-family: 'Lobster', cursive;
+    font-size: 30px;
+}
+
+ion-card {
+    width: 80%;
+    margin: 10px auto;
+    box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.2);
+}
+
+ion-button {
+    --background: #ffffff;
+   
+  
+    --color: rgb(0, 0, 5);
+  
+    --border-color: #000;
+    --border-style: solid;
+    --border-width: 1px;
+  
+    --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+  
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+  }

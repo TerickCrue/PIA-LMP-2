@@ -1,0 +1,57 @@
+<ion-menu [type]="menuType" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+
+    <ion-button expand="full" [routerLink]="['/recompensas']" routerDirection="root" routerLinkActive="active-item">
+      <ion-icon name="paw-outline" class="tab-bar__icono"></ion-icon>
+      Mascotas Perdidas
+    </ion-button>
+
+    <ion-button expand="full" [routerLink]="['/radar-mascotas']" routerDirection="root" routerLinkActive="active-item">
+      <ion-icon name="compass-outline"></ion-icon>
+      Radar de Mascotas
+    </ion-button>
+
+    <ion-button expand="full" [routerLink]="['/map-aviso']" routerDirection="root" routerLinkActive="active-item">
+      <ion-icon name="location-outline"></ion-icon>
+      Agregar Mascotas</ion-button>
+
+      <ion-button color="danger" expand="full" [routerLink]="['/account']" routerDirection="root" routerLinkActive="active-item">
+        <ion-icon name="person" class="tab-bar__icono"></ion-icon>
+        Cuenta
+      </ion-button>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Mascotas Perdidas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content [fullscreen]="true">
+
+    <ion-content>  
+      
+      <ion-card *ngFor="let mascota of mascotas">
+        <ion-card-header>
+          <ion-card-title>{{mascota.nombreMascota}}</ion-card-title>
+          <ion-card-subtitle>{{mascota.descripcion}}</ion-card-subtitle>
+        </ion-card-header>
+      
+        <ion-card-content>
+          Perdido hace {{mascota.fechaPerdido}}.
+          Recompensa: {{mascota.recompensa}} MXN
+        </ion-card-content>
+      </ion-card> <!--Card-->
+
+    </ion-content>
+  </ion-content>
+</div>

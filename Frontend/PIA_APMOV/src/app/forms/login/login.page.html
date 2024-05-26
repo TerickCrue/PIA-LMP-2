@@ -1,0 +1,26 @@
+<div class="contenido-login">
+
+
+  <ion-label id="login-text">Ingresa a tu <span>cuenta</span>:</ion-label>
+
+  <div>
+    <ion-item class="input" >
+      <ion-label> Usuario:</ion-label>
+      <ion-input [(ngModel)]="data.user" placeholder="Ingresa tu usuario!"></ion-input>
+    </ion-item>
+
+    <ion-item class="input">
+      <ion-label>Contraseña:</ion-label>
+      <ion-input [(ngModel)]="data.password" type="password" value="password" placeholder="******"></ion-input>
+    </ion-item>
+  </div>
+  
+  <div class="botones">
+    <ion-button class="boton" (click)="loginUser()">Iniciar sesion</ion-button>
+    <ion-label>o</ion-label>
+    <ion-button class="boton" [routerLink]="['/register']" routerDirection="root" routerLinkActive="active-item">Registrate</ion-button> 
+  </div>
+
+</div>
+
+
