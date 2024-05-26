@@ -1,6 +1,7 @@
 using PIA_LMP_API.Data;
 
 using PIA_LMP_API.Data;
+using PIA_LMP_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSqlServer<PIALMPContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+//Servicios
+builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<MascotaPerdidaService>();
 
 var app = builder.Build();
 
