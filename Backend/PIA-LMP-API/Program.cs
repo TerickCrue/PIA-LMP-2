@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSqlServer<PIALMPContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 
+builder.Services.AddCors();
+
 //Servicios
 builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddScoped<MascotaPerdidaService>();
@@ -26,6 +28,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder =>
+{
+    builder
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowAnyOrigin();
+});
 
 app.UseHttpsRedirection();
 

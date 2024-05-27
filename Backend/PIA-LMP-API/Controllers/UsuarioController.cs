@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PIA_LMP_API.Data.Dto;
 using PIA_LMP_API.Data.Models;
 using PIA_LMP_API.Services;
 
@@ -28,7 +29,7 @@ namespace PIA_LMP_API.Controllers
         }
 
         [HttpGet("consultarPorCorreo")]
-        public IEnumerable<Usuario> ConsultarPorCorreo(string correo)
+        public IEnumerable<Usuario> ConsultarPorCorreo(usuarioCorreoDto correo)
         {
             return _usuarioService.ConsultarPorCorreo(correo);
         }

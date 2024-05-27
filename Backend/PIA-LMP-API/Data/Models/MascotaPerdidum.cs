@@ -7,8 +7,8 @@ namespace PIA_LMP_API.Data.Models
     {
         public int IdMascota { get; set; }
         public string Nombre { get; set; } = null!;
-        public decimal Latitud { get; set; }
-        public decimal Longitud { get; set; }
+        public string Latitud { get; set; } = null!;
+        public string Longitud { get; set; } = null!;
         public string? Descripcion { get; set; }
         public string? Recompensa { get; set; }
         public DateTime Fecha { get; set; }

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { url } from 'inspector';
+import { MascotaPerdidaService } from '../services/mascota-perdida.service';
+import { MascotaPerdida } from '../interface/mascota-perdida';
 
 declare var google: any;
 
@@ -16,13 +18,18 @@ export class RadarMascotasPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement!: ElementRef;
   map: any;
 
-  constructor(private platform: Platform, private router: Router, private navCtrl: NavController, private storage: Storage,
+  constructor(
+    private platform: Platform, 
+    private router: Router, private navCtrl: NavController, 
+    private storage: Storage,
+    private mascotaPerdidaService: MascotaPerdidaService
   ) { }
   menuType: string = 'overlay';
 
   marker: any;
   direccion: any;
-  mascotas: any[] = [];
+  mascotas: any;
+  mascotas2: MascotaPerdida[] = [];
 
   svgMarker = {
     path: "M240,108a28,28,0,1,1-28-28A28.1,28.1,0,0,1,240,108ZM72,108a28,28,0,1,0-28,28A28.1,28.1,0,0,0,72,108ZM92,88A28,28,0,1,0,64,60,28.1,28.1,0,0,0,92,88Zm72,0a28,28,0,1,0-28-28A28.1,28.1,0,0,0,164,88Zm23.1,60.8a35.3,35.3,0,0,1-16.9-21.1,43.9,43.9,0,0,0-84.4,0A35.5,35.5,0,0,1,69,148.8,40,40,0,0,0,88,224a40.5,40.5,0,0,0,15.5-3.1,64.2,64.2,0,0,1,48.9-.1A39.6,39.6,0,0,0,168,224a40,40,0,0,0,19.1-75.2Z",
@@ -36,13 +43,16 @@ export class RadarMascotasPage implements OnInit {
 
   ngOnInit() {
     this.mascotas = JSON.parse(localStorage.getItem("Mascotas") || "[]");
-    console.log(this.mascotas)
+    console.log(this.mascotas);
+    //console.log(this.mascotas)
     this.platform.ready().then(() => {
-      this.initMap();
+      this.consultarMascotas();
+      //this.initMap(this.mascotas);
     });
   }
 
-  initMap() {
+  initMap(mascotas: any) {
+    console.log(mascotas);
     const mapOptions = {
       center: new google.maps.LatLng(25.727878, -100.313096),
       zoom: 13,
@@ -50,21 +60,33 @@ export class RadarMascotasPage implements OnInit {
     };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
-    this.mascotas.forEach((mascota) => {
-      this.addMarker(mascota.latitud, mascota.longitud, mascota.nombreMascota)
+    mascotas.forEach((mascota: MascotaPerdida) => {
+      this.addMarker(mascota.latitud ?? '0', mascota.longitud ?? '0', mascota.nombre ?? '')
 
     });
 
   }
 
-  addMarker(latitud: string, longitud: string, nombreMascota: string) {
+  addMarker(latitud: string, longitud: string, nombre: string) {
     this.marker = new google.maps.Marker({
       position: { lat: parseFloat(latitud), lng: parseFloat(longitud) },
       icon: this.svgMarker,
       map: this.map,
-      title: nombreMascota
+      title: nombre
     });
+  }
+
+  async consultarMascotas(){
+    this.mascotaPerdidaService.consultarMascotas().subscribe({
+      next: (data)=> {
+        console.log(data);
+        this.mascotas2 = data;
+        this.initMap(data);
+      },
+      complete: () => {
+        
+      }
+    })
   }
 
 

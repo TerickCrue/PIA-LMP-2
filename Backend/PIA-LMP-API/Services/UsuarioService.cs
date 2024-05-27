@@ -1,5 +1,7 @@
 ﻿using PIA_LMP_API.Data;
 using PIA_LMP_API.Data.Models;
+using PIA_LMP_API.Data.Dto;
+
 
 namespace PIA_LMP_API.Services
 {
@@ -21,13 +23,20 @@ namespace PIA_LMP_API.Services
             return _context.Usuarios.Find(idUsuario);
         }
 
-        public IEnumerable<Usuario> ConsultarPorCorreo(string correoUsuario)
+        public IEnumerable<Usuario> ConsultarPorCorreo(usuarioCorreoDto correo)
         {
-            return _context.Usuarios.Where(u => u.Correo == correoUsuario).ToList();
+            return _context.Usuarios.Where(u => u.Correo == correo.Correo).ToList();
         }
 
         public Usuario AgregarUsuario(Usuario usuarioNuevo)
         {
+         
+            var usuarioExistente = _context.Usuarios.Where(u => u.Correo.Equals(usuarioNuevo.Correo)).FirstOrDefault();
+            if (usuarioExistente is not null)
+            {
+                throw new Exception("Usuario ya registrado");
+            }
+
             _context.Usuarios.Add(usuarioNuevo);
             _context.SaveChanges();
 

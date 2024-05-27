@@ -36,6 +36,11 @@
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
       <ion-title>Agregar Mascota Perdida</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="setOpen(true)">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-content [fullscreen]="true">
@@ -43,34 +48,49 @@
     <ion-content>
       <div #map id="map"></div>
     </ion-content>
+    <ion-modal [isOpen]="isOpen">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="setOpen(false)">
+                <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <div class="formMarker">
+            <ion-label *ngIf="mostrarMensajeUbicacion" style="color: red;">Debe seleccionar una ubicacion primero</ion-label>
 
-
-    <div class="formMarker">
-      <ion-title> <ion-icon name="paw-outline" class="tab-bar__icono"></ion-icon>
-        Agrega tu mascota perdida:</ion-title>
-
-      <ion-item class="input">
-        <ion-input [(ngModel)]="mascota.nombreMascota" label="Stacked label" labelPlacement="stacked"
-          placeholder="Nombre de la mascota perdida:"></ion-input>
-      </ion-item>
-
-      <ion-item class="input">
-        <ion-input [(ngModel)]="mascota.descripcion" label="Stacked label" labelPlacement="stacked"
-          placeholder="Descripción:"></ion-input>
-      </ion-item>
-
-      <ion-item class="input">
-        <ion-input [(ngModel)]="mascota.fechaPerdido" label="Stacked label" labelPlacement="stacked"
-          placeholder="Perdido/a hace:"></ion-input>
-      </ion-item>
-
-      <ion-item class="input">
-        <ion-input [(ngModel)]="mascota.recompensa" label="Stacked label" labelPlacement="stacked"
-          placeholder="Recompensa a pedir:"></ion-input>
-      </ion-item>
-
-      <ion-button fill="outline" (click)="agregarMascota()">Agregar</ion-button>
-    </div>
-
+            <ion-item class="input">
+              <ion-input [(ngModel)]="mascota.nombre" type="text" label="Stacked label" labelPlacement="stacked"
+                placeholder="Nombre de la mascota perdida:"></ion-input>
+            </ion-item>
+      
+            <ion-item class="input">
+              <ion-input [(ngModel)]="mascota.descripcion" type="text" label="Stacked label" labelPlacement="stacked"
+                placeholder="Descripción:"></ion-input>
+            </ion-item>
+            
+            <ion-item class="input">
+              <ion-datetime-button datetime="fechaPerdido"></ion-datetime-button>
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime id="fechaPerdido" [(ngModel)]="fechaSeleccionada"></ion-datetime>
+                </ng-template>
+              </ion-modal>
+            </ion-item>
+      
+            <ion-item class="input">
+              <ion-input [(ngModel)]="mascota.recompensa" type="number" label="Stacked label" labelPlacement="stacked"
+                placeholder="Recompensa a pedir:"></ion-input>
+            </ion-item>
+            
+            <ion-button fill="outline" (click)="agregarMascota()">Agregar</ion-button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
   </ion-content>
 </div>
