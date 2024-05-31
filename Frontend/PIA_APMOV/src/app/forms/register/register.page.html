@@ -1,23 +1,46 @@
-<div class="contenido-login">
+<ion-content>
+  <div class="contenido-login">
 
 
-  <ion-label id="register-text">¡<span>Registrate</span>!</ion-label>
-
-  <div>
-    <ion-item class="input">
-      <ion-label>Usuario:</ion-label>
-      <ion-input [(ngModel)]="data.user" placeholder="Ingresa tu usuario!"></ion-input>
-    </ion-item>
-
-    <ion-item class="input">
-      <ion-label>Contraseña:</ion-label>
-      <ion-input [(ngModel)]="data.password" type="password" value="password" placeholder="******"></ion-input>
-    </ion-item>
+    <ion-label id="register-text">¡<span>Registrate</span>!</ion-label>
+  
+    <div>
+      <form
+        #formulario="ngForm"
+        novalidate="novalidate"
+        (ngSubmit)="enviarFormulario(formulario)"
+        >
+        <ion-list>
+          <ion-item class="input">
+            <ion-label>Correo:</ion-label>
+            <ion-input required name="correoName" [(ngModel)]="usuarioNuevo.correo" type="email" placeholder="Ingresa tu correo"></ion-input>
+          </ion-item>
+          <ion-item class="input">
+            <ion-label>Nombre:</ion-label>
+            <ion-input required  name="nombreName" [(ngModel)]="usuarioNuevo.nombre" type="text" maxlength="80" placeholder="Ingresa tu nombre"></ion-input>
+          </ion-item>
+          <ion-item class="input">
+            <ion-label>Telefono:</ion-label>
+            <ion-input required  name="telefonoName" [(ngModel)]="usuarioNuevo.telefono" type="tel" maxlength="10" placeholder="Ingresa tu telefono"></ion-input>
+          </ion-item>
+          <ion-item class="input">
+            <ion-label>Contraseña:</ion-label>
+            <ion-input required  name="contrasenaName" [(ngModel)]="usuarioNuevo.contrasena" type="password" value="password" placeholder="******"></ion-input>
+          </ion-item>
+          <ion-item class="input">
+            <ion-label>Confirmar contraseña:</ion-label>
+            <ion-input required  name="confirmarContrasenaName" [(ngModel)]="confirmarContrasena" type="password" value="password" placeholder="******"></ion-input>
+          </ion-item>
+        </ion-list>
+        <div class="botones">
+          <ion-button id ="registerUser" class="boton" type="submit" [disabled]="submitting || !formulario.valid || usuarioNuevo.contrasena !== confirmarContrasena">Registrate Ahora</ion-button>
+          <ion-label>o</ion-label>
+          <ion-button (click)="goToLogin()" class="boton">Ya tengo una cuenta</ion-button>
+        </div>
+      </form>
+    </div>
+    
+  
   </div>
-  <div class="botones">
-    <ion-button id ="registerUser" class="boton" (click)="registerUser()">Registrate Ahora</ion-button>
-    <ion-label>o</ion-label>
-    <ion-button class="boton" [routerLink]="['/login']" routerDirection="root" routerLinkActive="active-item">Ya tengo una cuenta</ion-button>
-  </div>
+</ion-content>
 
-</div>

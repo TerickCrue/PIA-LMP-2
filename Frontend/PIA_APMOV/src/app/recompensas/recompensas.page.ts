@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { MascotaPerdidaService } from '../services/mascota-perdida.service';
+import { MascotaPerdidaService } from '../services/http/mascota-perdida.service';
 
 
 @Component({

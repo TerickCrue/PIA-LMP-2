@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PIA_LMP_API.Data.Dto;
+using PIA_LMP_API.Data.Helpers;
 using PIA_LMP_API.Data.Models;
 using PIA_LMP_API.Services;
+//using PIA_LMP_API.Helpers;
+
 
 namespace PIA_LMP_API.Controllers
 {
@@ -17,10 +21,17 @@ namespace PIA_LMP_API.Controllers
 
         }
 
-        [HttpGet("consultarUsuarios")]
+        [HttpGet("consultarTodosUsuarios")]
         public IEnumerable<Usuario> ConsultarUsuarios()
         {
             return _usuarioService.ConsultarTodosUsuarios();
+        }
+
+        [HttpGet("consultarUsuario")]
+        public UsuarioDto ConsultarUsuarioSesion()
+        {
+            int idUsuario = Utileria.ObtenerIdUsuarioSesion(this);
+            return _usuarioService.ConsultarUsuarioSesion(idUsuario);
         }
 
         [HttpGet("consultarPorId/{idUsuario}")]
@@ -34,16 +45,18 @@ namespace PIA_LMP_API.Controllers
             return _usuarioService.ConsultarPorCorreo(correo);
         }
 
+        [AllowAnonymous]
         [HttpPost("agregar")]
-        public Usuario Agregar(Usuario usuario)
+        public void Agregar(NuevoUsuarioDto usuario)
         {
-            return _usuarioService.AgregarUsuario(usuario);
+            _usuarioService.AgregarUsuario(usuario);
         }
 
         [HttpPut("actualizar")]
-        public void Actualizar(Usuario usuario)
+        public UsuarioDto Actualizar(UsuarioDto usuario)
         {
-           _usuarioService.ActualizarUsuario(usuario);
+            int idUsuario = Utileria.ObtenerIdUsuarioSesion(this);
+           return _usuarioService.ActualizarUsuario(idUsuario, usuario);
         }
 
         [HttpDelete("eliminar")]

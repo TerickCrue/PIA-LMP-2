@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { UsuarioService } from '../services/http/usuario.service';
+import { UsuarioDto } from '../interface/usuario-dto';
+import { AuthService } from '../auth/auth.service';
+import { EditarInformacionComponent } from './editar-informacion/editar-informacion.component';
 
 
 @Component({
@@ -12,19 +15,49 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class AccountPage implements OnInit {
   menuType: string = 'overlay';
-  nombreUsuario: string = '';
+  protected usuario = new UsuarioDto;
 
   constructor(
     private route: ActivatedRoute,
-    private storage: Storage
+    private usarioService: UsuarioService,
+    private authService: AuthService,
+    private modalControler: ModalController
 
   ) { }
 
 
   async ngOnInit() {
-    await this.storage.create();
+    this.consultarUsuario();
+    //await this.storage.create();
 
-    this.nombreUsuario = await this.storage.get('user');
+    //this.nombreUsuario = await this.storage.get('user');
+
   }
 
+  protected consultarUsuario(){
+    this.usarioService.consultarUsuarioSesion().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.usuario = data;
+      }
+    })
+  }
+
+  protected cerrarSesion(){
+    this.authService.cerrarSesion();
+  }
+
+  protected async editarInformacion(){
+    const modal = await this.modalControler.create({
+      component: EditarInformacionComponent,
+    })
+
+    await modal.present();
+
+    const data = await modal.onWillDismiss();
+    
+    if(data.role == "confirm"){
+      this.consultarUsuario();
+    }
+  }
 }

@@ -1,6 +1,5 @@
-export class Usuario{
+export class UsuarioDto{
 
-    public idUsuario: number | undefined;
     public nombre: string | undefined;
     public telefono: string | undefined;
     public correo: string | undefined;

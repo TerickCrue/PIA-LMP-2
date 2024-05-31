@@ -1,0 +1,29 @@
+ion-header{
+    height: 10vh;
+}
+ion-content{
+    height: 90vh;
+}
+
+.formulario{
+    height: 90vh;
+
+    form{
+        height: 100%;
+    }
+
+    .contenido-formulario{
+        height: 70vh!important;
+    }
+
+    .boton{
+        ion-button{
+            width: 50vw;
+            margin-bottom: 32px;
+        }
+        height: 20vh !important;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+    }
+}

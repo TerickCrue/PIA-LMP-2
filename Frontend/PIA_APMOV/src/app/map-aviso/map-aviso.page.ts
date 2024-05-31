@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { MascotaPerdida } from '../interface/mascota-perdida';
-import { MascotaPerdidaService } from '../services/mascota-perdida.service';
+import { MascotaPerdidaService } from '../services/http/mascota-perdida.service';
 
 declare var google: any;
 

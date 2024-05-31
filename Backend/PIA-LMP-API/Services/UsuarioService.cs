@@ -1,6 +1,7 @@
 ﻿using PIA_LMP_API.Data;
 using PIA_LMP_API.Data.Models;
 using PIA_LMP_API.Data.Dto;
+using PIA_LMP_API.Data.Helpers;
 
 
 namespace PIA_LMP_API.Services
@@ -18,6 +19,17 @@ namespace PIA_LMP_API.Services
             return _context.Usuarios.ToList();
         }
 
+        public UsuarioDto ConsultarUsuarioSesion(int idUsuario)
+        {
+            return _context.Usuarios.Where(u => u.IdUsuario == idUsuario).Select(u => new UsuarioDto
+            {
+                Correo = u.Correo,
+                Direccion = u.Direccion,
+                Nombre = u.Nombre,
+                Telefono = u.Telefono,
+            }).FirstOrDefault();
+        }
+
         public Usuario? ConsultarPorId(int idUsuario)
         {
             return _context.Usuarios.Find(idUsuario);
@@ -28,32 +40,52 @@ namespace PIA_LMP_API.Services
             return _context.Usuarios.Where(u => u.Correo == correo.Correo).ToList();
         }
 
-        public Usuario AgregarUsuario(Usuario usuarioNuevo)
+        public void AgregarUsuario(NuevoUsuarioDto usuarioNuevo)
         {
          
             var usuarioExistente = _context.Usuarios.Where(u => u.Correo.Equals(usuarioNuevo.Correo)).FirstOrDefault();
+
             if (usuarioExistente is not null)
             {
-                throw new Exception("Usuario ya registrado");
+                throw new CustomException("Usuario ya registrado");
             }
 
-            _context.Usuarios.Add(usuarioNuevo);
-            _context.SaveChanges();
+            var usuario = new Usuario
+            {
+                Nombre = usuarioNuevo.Nombre,
+                Correo = usuarioNuevo.Correo,
+                Contrasena = usuarioNuevo.Contrasena,
+                Telefono = usuarioNuevo.Telefono,
+            };
 
-            return usuarioNuevo;
+            var usuarioAgregado = _context.Usuarios.Add(usuario);
+            _context.SaveChanges();
 
         }
 
-        public void ActualizarUsuario(Usuario usuarioActualizar)
+        public UsuarioDto ActualizarUsuario(int idUsuario, UsuarioDto usuarioActualizar)
         {
-            var existingUsuario = ConsultarPorId(usuarioActualizar.IdUsuario);
+            var existingUsuario = ConsultarPorId(idUsuario);
 
             if(existingUsuario is not null)
             {
                 existingUsuario.Nombre = usuarioActualizar.Nombre;
                 existingUsuario.Direccion = usuarioActualizar.Direccion;
+                existingUsuario.Telefono = usuarioActualizar.Telefono;
 
                 _context.SaveChanges();
+
+                return new UsuarioDto
+                {
+                    Nombre = existingUsuario.Nombre,
+                    Correo = existingUsuario.Correo,
+                    Telefono = existingUsuario.Telefono,
+                    Direccion = existingUsuario.Direccion,
+                };
+            }
+            else
+            {
+                throw new CustomException("Usuario no válido");
             }
         }
 

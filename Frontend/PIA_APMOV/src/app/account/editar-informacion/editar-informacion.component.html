@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cerrar('cancel')">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Editar información</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="formulario">
+    <form
+      #formulario="ngForm"
+      novalidate="novalidate"
+      (ngSubmit)="enviarFormulario(formulario)"
+    >
+      <div class="contenido-formulario">
+        <ion-list>
+          <ion-item>
+            <ion-label>Nombre:</ion-label>
+            <ion-input name="nombreName" required type="text" maxlength="80" [(ngModel)]="usuario.nombre"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Telefono:</ion-label>
+            <ion-input name="telefonoName" type="tel" maxlength="10" [(ngModel)]="usuario.telefono"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Direccion:</ion-label>
+            <ion-input name="direccionName" required type="text" [(ngModel)]="usuario.direccion"></ion-input>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div class="boton">
+        <ion-button
+          fill="outline"
+          type="submit"
+          [disabled]="submitting || !formulario.valid">
+          Guardar
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>
